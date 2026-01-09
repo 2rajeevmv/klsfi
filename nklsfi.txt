@@ -1,0 +1,14 @@
+https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset
+
+https://archive.ics.uci.edu/dataset/144/statlog+german+credit+data
+Feature Type - Categorical, Integer
+# Instances - 1000
+# Features - 20
+
+https://archive.ics.uci.edu/dataset/27/credit+approval
+Feature Type - Categorical, Integer, Real
+# Instances - 690
+# Features - 15
+
+https://stackoverflow.com/questions/64500342/creating-requirements-txt-in-pip-compatible-format-in-a-conda-virtual-environmen
+conda env export > e.yml --no-builds

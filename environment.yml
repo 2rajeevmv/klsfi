@@ -1,0 +1,13 @@
+name: /home/iamamoron/rajeev/work/learn/condata/scikitlrn/.env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - streamlit
+  - scikit-learn
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn 
+  - pip
+  - ipykernel
