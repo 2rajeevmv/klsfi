@@ -3,11 +3,16 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  # python
+  - python=3.12
+
   - streamlit
   - scikit-learn
   - numpy
   - pandas
   - matplotlib
-  - seaborn 
-  - pip
+  - seaborn
+  - xgboost
+  - joblib
   - ipykernel
+  - pip

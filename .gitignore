@@ -1,15 +1,89 @@
-# gitignore template for Jupyter Notebooks
-# website: http://jupyter.org/
+# =====================
+# Python
+# =====================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-.ipynb_checkpoints
-*/.ipynb_checkpoints/*
-
-# IPython
-profile_default/
-ipython_config.py
-
-# conda env directory
+# =====================
+# Virtual Environments
+# =====================
+venv/
+ENV/
 env/
+.venv/
+.env
 
-# Remove previous ipynb_checkpoints
-#   git rm -r .ipynb_checkpoints/
+# =====================
+# IDE / Editors
+# =====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =====================
+# Jupyter Notebooks
+# =====================
+.ipynb_checkpoints/
+
+# =====================
+# Testing / Coverage
+# =====================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# =====================
+# Type checking / Linting
+# =====================
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+
+# =====================
+# Streamlit
+# =====================
+.streamlit/secrets.toml
+
+# =====================
+# OS / Filesystem
+# =====================
+.DS_Store
+Thumbs.db
+
+# =====================
+# Logs & temp files
+# =====================
+*.log
+*.tmp
+*.bak
+
+# =====================
+# Notes: Keep these in the repository
+# =====================
+# models/*.pkl
+# data/german.data
+# data/test_data.csv
