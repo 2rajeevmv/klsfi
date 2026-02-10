@@ -179,6 +179,14 @@ def get_feature_desc():
 
 
 def change_target_class(y):
+    """
+    For credit risk, the positive class should be Bad Credit (1) because:
+    - We care about identifying risky customers
+    - Recall = "of all bad credits, how many did we catch?"
+    - Precision = "of those we flagged as bad, how many were actually bad?"
+    This is the standard in risk assessment
+    So 1 = bad, treating Bad Credit as the positive class.
+    """
     y_binary = y -1 # convert 1=good, 2=bad to 0=good, 1=bad
     return y_binary
 

@@ -31,9 +31,15 @@ from src.pipeline import (
     MODEL_NAMES,
     get_model_names,
     get_model_name,
+    get_model_kls_name,
     train_models,
     save_models,
     load_models,
+)
+
+from src.metrics import (
+    evaluate_models,
+    comparison_as_df,
 )
 
 data_path = './data/german.data'
@@ -128,12 +134,11 @@ def main():
     print(f'\n[9]Loading trained model pipelines using joblib ')
     #loaded_models = load_models(initial_models)
     loaded_models = load_models()
-    for name in loaded_models:
-        print(f'loaded {name} model pipeline')
+    for name, model in loaded_models.items():
+        print(f'loaded {name} model pipeline {get_model_kls_name(model)}')
 
     print(f'\n[9] evaluate models')
-    #results = evaluate_models(trained_pipelines, X_test, y_test, initial_models)
-    #results = evaluate_models(trained_pipelines, X_test, y_test, initial_models)
+    results = evaluate_models(trained_pipelines, X_test, y_test)
     
     
 
