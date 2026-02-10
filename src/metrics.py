@@ -137,12 +137,12 @@ def print_model_summary(name, results):
     print(f'{name} - Detailed Results')
     
     print(f'Performance Metrics:')
-    print(f'  Accuracy:  {results['Accuracy']:.4f}')
-    print(f'  Precision: {results['Precision']:.4f}')
-    print(f'  Recall:    {results['Recall']:.4f}')
-    print(f'  F1 Score:  {results['F1']:.4f}')
-    print(f'  AUC Score: {results['AUC']:.4f}')
-    print(f'  MCC Score: {results['MCC']:.4f}')
+    print(f'  Accuracy:  {results["Accuracy"]:.4f}')
+    print(f'  Precision: {results["Precision"]:.4f}')
+    print(f'  Recall:    {results["Recall"]:.4f}')
+    print(f'  F1 Score:  {results["F1"]:.4f}')
+    print(f'  AUC Score: {results["AUC"]:.4f}')
+    print(f'  MCC Score: {results["MCC"]:.4f}')
     
     print(f"\nConfusion Matrix:")
     print(pretty_confusion_matrix(results['confusion_matrix']))

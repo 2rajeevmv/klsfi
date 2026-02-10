@@ -246,3 +246,10 @@ def load_models(sel_models=ALL_MODELS):
             print(f'{name} model file not found:{filepath}')
     
     return models
+
+
+def predict(model, X):
+    predictions = model.predict(X)
+    probabilities = model.predict_proba(X)
+
+    return predictions, probabilities
