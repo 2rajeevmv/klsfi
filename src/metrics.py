@@ -35,6 +35,14 @@ def evaluate_model(model, X_test, y_test):
     y_pred = model.predict(X_test)
     
     """
+    For credit risk, the positive class should be Bad Credit (1) because:
+    - We care about identifying risky customers
+    - Recall = "of all bad credits, how many did we catch?"
+    - Precision = "of those we flagged as bad, how many were actually bad?"
+    This is the standard in risk assessment
+    So 1 = bad, treating Bad Credit as the positive class.
+    """
+    """
     model.predict_proba returns class probabilities:
     [[0.12, 0.88],
     [0.73, 0.27],
@@ -80,10 +88,13 @@ def comparison_as_df(results):
     for model_name, metrics in results.items():
         cm = metrics['confusion_matrix']
         """
-        TN : Good correctly predicted as Good 
-        FP : Good predicted as Bad 
-        FN : Bad predicted as Good 
-        TP : Bad correctly predicted as Bad
+        For credit risk, the positive class is Bad Credit (1)
+        -ve class - Good Credit
+        +ve class - Bad Credit
+        TN : Good Credit correctly predicted as Good Credit
+        FP : Good Credit predicted as Bad Credit
+        FN : Bad Credit predicted as Good Credit
+        TP : Bad Credit correctly predicted as Bad Credit
         """
         TN, FP, FN, TP = cm.ravel()
         comparison_data.append({

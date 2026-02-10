@@ -155,13 +155,16 @@ def main():
     print(f'results in descending sort order of {best_metric}')
     sorted_df = results_df.sort_values(by=best_metric, ascending=False)
     print(sorted_df)
-    print(f'\nTN : Good correctly predicted as Good \
-            \nFP : Good predicted as Bad \
-            \nFN : Bad predicted as Good \
-            \nTP : Bad correctly predicted as Bad \
+    print(f'\nFor credit risk, the positive class is Bad Credit(1) \
+            \n-ve class - Good Credit(0) \
+            \n+ve class - Bad Credit(1) \
+            \nTN : Good Credit correctly predicted as Good Credit\
+            \nFP : Good Credit predicted as Bad Credit\
+            \nFN : Bad Credit predicted as Good Credit \
+            \nTP : Bad Credit correctly predicted as Bad Credit\
           ')
 
-    print(f'\n[12] Print detailed summary')
+    #print(f'\n[12] Print detailed summary')
     #for name, result in results.items():
         #print_model_summary(name, results[name])
 
