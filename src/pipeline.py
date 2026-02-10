@@ -7,7 +7,9 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.exceptions import NotFittedError
 from xgboost import XGBClassifier
+
 import joblib
 import os
 import time
@@ -40,17 +42,30 @@ MODEL_NAMES = [
 PREPROCESSOR = 'preprocessor'
 CLASSIFIER = 'classifier'
 
+MODEL_PATH = './model'
 
+def format_time_ms(ms):
+    m, ms = divmod(ms, 60000)
+    s, ms = divmod(ms, 1000)
+    return f'{int(m)}mins {int(s)}secs {int(ms)}ms'
+    
 def get_model_names():
     return MODEL_NAMES
 
 def get_model_name(index):
     return MODEL_NAMES[index]
 
-def pipeline_model_name(pipeline):
+def get_model_kls_name(pipeline):
     model = pipeline.named_steps['classifier']
     model_name = model.__class__.__name__
     return model_name
+
+def assert_trained(pipeline, X):
+    try:
+        pipeline.predict(X[:1])
+    except NotFittedError:
+        model_kls_name = get_model_kls_name
+        raise RuntimeError(f'model {model_kls_name} was not trained')
 
 
 def selected_model_names(models=ALL_MODELS):
@@ -150,24 +165,33 @@ def build_models(categorical, numerical, sel_models=ALL_MODELS ):
 
 def train_model(model_pipeline, X_train, y_train):
 
-    model_class_name = pipeline_model_name(model_pipeline)
+    model_class_name = get_model_kls_name(model_pipeline)
 
-    print(f'\nstarted: training {model_class_name} model')
-    start_time = time.time()
+    print(f'\nstarted:training {model_class_name} model')
+    start_time = time.perf_counter()
 
     model_pipeline.fit(X_train, y_train)
     
-    training_time = time.time() - start_time
+    training_time_ms = (time.perf_counter() - start_time) * 1000
     
-    mins = int(training_time // 60)
-    secs = int(training_time % 60)
-    print(f'completed: training {model_class_name} model in {mins} {secs} secs')
+    mins, rem_ms = divmod(training_time_ms, 60_000)
+    secs, ms = divmod(rem_ms, 1_000)
+    #print(f'completed:training {model_class_name} model in {int(mins)} mins {int(secs)} secs {int(ms)} ms')
+    print(f'completed:training {model_class_name} model in {format_time_ms(training_time_ms)}')
+
+
+    score = model_pipeline.score(X_train, y_train)
+    print(f'training score: {score}')
+    assert_trained(model_pipeline, X_train) # making sure training is run
 
     return model_pipeline
 
 
 def train_models(X_train, y_train, categorical, numerical, sel_models=ALL_MODELS):
     all_trained = {}
+    
+    print(f'train data: \n samples:{X_train.shape[0]} \n features:{X_train.shape[1]}')
+    assert X_train.shape[0] == len(y_train), "X_train samples not equal to y_train"
 
     pipelines = build_models(categorical, numerical, sel_models)
     
@@ -176,3 +200,49 @@ def train_models(X_train, y_train, categorical, numerical, sel_models=ALL_MODELS
         all_trained[name] = trained
     
     return all_trained
+
+
+def save_model(model, model_name, filepath=None):
+    if filepath is None:
+        os.makedirs(MODEL_PATH, exist_ok=True)
+        filename = model_name.lower().replace(' ', '_').replace('-', '_') + '_model.pkl'
+        filepath = os.path.join(MODEL_PATH, filename)
+    
+    joblib.dump(model, filepath, compress=3)
+    print(f'{model_name} model:{filepath}')
+
+    return filepath
+
+def save_models(trained_models):
+    filepaths = {}
+
+    for name, model in trained_models.items():
+        filepath = save_model(model, name )
+        filepaths[name] = filepath
+    
+    return filepaths
+
+def load_model(filepath):
+ 
+    model = joblib.load(filepath)
+    
+    return model
+
+def load_models(sel_models=ALL_MODELS):
+    models = {}
+    sel_model_names = selected_model_names(sel_models)
+
+    for name in sel_model_names:
+        filename = name.lower().replace(' ', '_').replace('-', '_') + '_model.pkl'
+        filepath = os.path.join(MODEL_PATH, filename)
+        
+        print(f'loading {name} model from {filepath}')
+        if os.path.exists(filepath):
+            try:
+                models[name] = load_model(filepath)
+            except Exception as e:
+                print(f'error loading {name} model: {e}')
+        else:
+            print(f'{name} model file not found:{filepath}')
+    
+    return models

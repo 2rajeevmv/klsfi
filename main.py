@@ -32,6 +32,8 @@ from src.pipeline import (
     get_model_names,
     get_model_name,
     train_models,
+    save_models,
+    load_models,
 )
 
 data_path = './data/german.data'
@@ -77,7 +79,7 @@ def main():
 
     # Save original test data (for Streamlit upload)
     # pipeline will transform it properly
-    print(f'\nsaving test data')
+    print(f'\n[6] Saving test data')
     print(X_test.head())
     print(y_test[:10])
 
@@ -102,7 +104,7 @@ def main():
     print(f'{MODEL_NAMES}')
 
 
-    #print(f'\nmain: training on model(s): ')
+    print(f'\n[7] main:training on model(s): ')
     """
     print(f'{initial_models}')
     for i in initial_models:
@@ -117,8 +119,23 @@ def main():
         #models[name] = build_model_pipeline(name, categorical, numerical)
     """
 
-    #train_models(X_train, y_train, categorical, numerical)
-    train_models(X_train, y_train, categorical, numerical, initial_models)
+    trained_pipelines = train_models(X_train, y_train, categorical, numerical)
+    #train_models(X_train, y_train, categorical, numerical, initial_models)
+    
+    print(f'\n[8]Saving trained pipelines using joblib')
+    save_models(trained_pipelines)
+
+    print(f'\n[9]Loading trained model pipelines using joblib ')
+    #loaded_models = load_models(initial_models)
+    loaded_models = load_models()
+    for name in loaded_models:
+        print(f'loaded {name} model pipeline')
+
+    print(f'\n[9] evaluate models')
+    #results = evaluate_models(trained_pipelines, X_test, y_test, initial_models)
+    #results = evaluate_models(trained_pipelines, X_test, y_test, initial_models)
+    
+    
 
 if __name__ == "__main__":
     main()
