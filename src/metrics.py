@@ -119,7 +119,7 @@ def save_results(results, filepath='./model/model_results.pkl'):
     joblib.dump(results, filepath, compress=3)
     print(f'results saved to:{filepath}')
 
-def load_results(filepath='models/model_results.pkl'):
+def load_results(filepath='./model/model_results.pkl'):
     results = joblib.load(filepath)
     print(f'loaded results from:{filepath}')
     return results
