@@ -40,6 +40,10 @@ from src.pipeline import (
 from src.metrics import (
     evaluate_models,
     comparison_as_df,
+    save_results,
+    load_results,
+    print_model_summary,
+
 )
 
 data_path = './data/german.data'
@@ -140,7 +144,26 @@ def main():
     print(f'\n[9] evaluate models')
     results = evaluate_models(trained_pipelines, X_test, y_test)
     
-    
+    print(f'\n[10] Saving evaluation results...')
+    save_results(results)
+
+    print("\n[11] Results Summary")
+    results_df = comparison_as_df(results)
+    print(results_df)
+
+    best_metric = 'AUC'
+    print(f'results in descending sort order of {best_metric}')
+    sorted_df = results_df.sort_values(by=best_metric, ascending=False)
+    print(sorted_df)
+    print(f'\nTN : Good correctly predicted as Good \
+            \nFP : Good predicted as Bad \
+            \nFN : Bad predicted as Good \
+            \nTP : Bad correctly predicted as Bad \
+          ')
+
+    print(f'\n[12] Print detailed summary')
+    #for name, result in results.items():
+        #print_model_summary(name, results[name])
 
 if __name__ == "__main__":
     main()
