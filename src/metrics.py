@@ -88,9 +88,9 @@ def comparison_as_df(results):
     for model_name, metrics in results.items():
         cm = metrics['confusion_matrix']
         """
-        For credit risk, the positive class is Bad Credit (1)
-        -ve class - Good Credit
-        +ve class - Bad Credit
+        For credit risk, the positive class is Bad Credit(1)
+        -ve class - Good Credit(0)
+        +ve class - Bad Credit(1)
         TN : Good Credit correctly predicted as Good Credit
         FP : Good Credit predicted as Bad Credit
         FN : Bad Credit predicted as Good Credit
