@@ -69,6 +69,7 @@ from .metrics import (
 )
 
 __all__ = [
+     # data utils
      'load_data',
     'get_dataset_info',
     'get_feature_types',
@@ -79,10 +80,11 @@ __all__ = [
     'split_data',
     'save_test_data',
     'load_test_data',
-
     'CATEGORICAL_COLS',
     'NUMERICAL_COLS',
-   'LOGISTIC_REGRESSION',
+
+    # pipeline
+    'LOGISTIC_REGRESSION',
     'DECISION_TREE',
     'KNN',
     'NAIVE_BAYES',
@@ -102,7 +104,8 @@ __all__ = [
     'save_model',
     'load_models',
     'predict',
-    
+
+    # metrics
     'compute_metrics',
     'comparison_as_df',
     'evaluate_model',
