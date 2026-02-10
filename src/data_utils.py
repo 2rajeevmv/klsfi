@@ -11,8 +11,12 @@ import joblib
 import os
 
 
+RANDOM_SEED = 42
+TEST_RATIO = 0.3  # test ratio default, for split data
+
 data_path = 'data/german.data'
 feature_name_path = 'model/feature_names.pkl'
+test_data_path = 'data/test_data.csv'
 
 # Meaningful column names for German Credit Data 
 # This need to be done as:
@@ -24,6 +28,7 @@ COLUMN_NAMES = [
     "OtherInstallmentPlans", "Housing", "ExistingCredits",
     "Job", "NumDependents", "Telephone", "ForeignWorker", "Target"
 ]
+TARGET_COL_NAME = "Target"
 
 # Categorical & Numerical Columns
 CATEGORICAL_COLS = [
@@ -39,6 +44,7 @@ NUMERICAL_COLS = [
 
 n_features = None
 n_samples = None
+
 
 ###
 
@@ -175,3 +181,25 @@ def get_feature_desc():
 def change_target_class(y):
     y_binary = y -1 # convert 1=good, 2=bad to 0=good, 1=bad
     return y_binary
+
+def split_data(X, y, test_size=TEST_RATIO, random_state = RANDOM_SEED):
+    
+    return train_test_split(X, y, test_size=test_size, random_state=random_state, stratify=y)
+
+def save_test_data(X_test, y_test, filepath=test_data_path, index=False ):
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+
+    test_data = X_test.copy()
+    test_data[TARGET_COL_NAME] = y_test
+    test_data.to_csv(filepath, index=index)
+
+def load_test_data(filepath=test_data_path):
+    df = pd.read_csv(filepath)
+
+    if TARGET_COL_NAME in df.columns:
+        y_test = df[TARGET_COL_NAME].values
+        X_test = df.drop(TARGET_COL_NAME, axis=1)
+        return X_test, y_test
+    else:
+        return df, None
+
