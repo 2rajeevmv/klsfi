@@ -170,3 +170,8 @@ def get_feature_desc():
         'ForeignWorker': 'foreign worker (categorical)',
         'Target': 'credit risk: 1=good, 2=bad (converted to 0=good, 1=bad)'
     }
+
+
+def change_target_class(y):
+    y_binary = y -1 # convert 1=good, 2=bad to 0=good, 1=bad
+    return y_binary
