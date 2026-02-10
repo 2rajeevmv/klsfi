@@ -20,7 +20,23 @@ from src.data_utils import (
     load_test_data,
 )
 
+from src.pipeline import (
+    LOGISTIC_REGRESSION,
+    DECISION_TREE,
+    KNN,
+    NAIVE_BAYES,
+    RANDOM_FOREST,
+    XGBOOST,
+    ALL_MODELS,
+    MODEL_NAMES,
+    get_model_names,
+    get_model_name,
+    train_models,
+)
+
 data_path = './data/german.data'
+
+initial_models = [LOGISTIC_REGRESSION, KNN]
 
 def main():
     """
@@ -45,6 +61,7 @@ def main():
 
     print(f'\n[3] Save feature names for later use')
     #save_feature_names(categorical, numerical)
+    #TODO: remove commenting -after
 
     print(f'\n[4] Change target class to binary class 0=good, 1=bad')
     print(f'before:\n {y[:5]}')
@@ -64,7 +81,8 @@ def main():
     print(X_test.head())
     print(y_test[:10])
 
-    save_test_data(X_test, y_test)
+    #TODO:remove commenting - after 
+    #save_test_data(X_test, y_test)
     print(f'saved the split test data for streamlit upload')
 
     # load test data
@@ -75,8 +93,32 @@ def main():
 
     assert X_test.columns.equals(X_test_after.columns)
     assert X_test.dtypes.equals(X_test_after.dtypes)
+    model_names = get_model_names()
+    print(f'{model_names}, {len(model_names)}')
+    model_name = get_model_name(KNN)
+    print(f'KNN model Name: {model_name} {KNN}')
+
+    print(f'{ALL_MODELS}')
+    print(f'{MODEL_NAMES}')
 
 
+    #print(f'\nmain: training on model(s): ')
+    """
+    print(f'{initial_models}')
+    for i in initial_models:
+        print(f'{i} in initial models')
+        print(f'{MODEL_NAMES[i]} model')
+    """
+    #sel_models = [MODEL_NAMES[i] for i in initial_models]
+    #print(f'{sel_models}')
+    """
+    for name in sel_models:
+        print(f'\nbuilding {name} model pipeline')
+        #models[name] = build_model_pipeline(name, categorical, numerical)
+    """
+
+    #train_models(X_train, y_train, categorical, numerical)
+    train_models(X_train, y_train, categorical, numerical, initial_models)
 
 if __name__ == "__main__":
     main()
