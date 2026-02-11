@@ -358,4 +358,4 @@ else:
 # Footer
 # -------------------------------------------------
 st.markdown("---")
-st.caption("Credit Risk Classification - Multiple ML classifiier models end-to-end")
+st.caption("Credit Risk Classification - end-to-end implementation of multiple ML classifiier models")
