@@ -271,7 +271,9 @@ def get_model_parameters(model_name):
         'K-Nearest Neighbors': {
             'n_neighbors': 5
         },
-        'Naive Bayes': {},
+        'Naive Bayes': {
+            'algorithm': 'GaussianNB'
+        },
         'Random Forest': {
             'n_estimators': 100,
             'max_depth': 10,
