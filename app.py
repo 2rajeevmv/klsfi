@@ -254,8 +254,8 @@ if uploaded_file is not None:
     try:
         df = pd.read_csv(uploaded_file)
         st.success(f"✅ Loaded {df.shape[0]} rows")
-        st.dataframe(df.head(5), width='stretch')
-
+        #st.dataframe(df.head(5), width='stretch')
+        st.dataframe(df.head(5))
         if "Target" not in df.columns:
             st.warning("⚠️ Target column missing (evaluation disabled)")
     except Exception as e:
