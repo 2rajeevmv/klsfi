@@ -29,7 +29,7 @@ This binary classification problem has significant real-world applications in ba
     * We care about identifying risky customers
     * Recall = "of all bad credits, how many did we catch?"
     * Precision = "of those we flagged as bad, how many were actually bad?"  
-    This is the standard in risk assessment
+
 
 
 ### Features (Meaningful Names):
@@ -103,22 +103,24 @@ Confusion matrix is raveled as: TN, FP, FN, TP
 
 ### Model Performance Observations
 #### Key Summary Points:
-* Best Overall: Logistic Regression (78.33% accuracy, 0.457 MCC)  
-* Worst Performer: Decision Tree (67% accuracy, 0.232 MCC)  
-* Highest Precision: Naive Bayes (0.678) - but very conservative  
+* **Best Overall: Logistic Regression** (78.33% accuracy - highest, 0.457 MCC - highest)  
+* Worst Performer: Decision Tree (67% accuracy, 0.232 MCC - lowest)  
+* Highest Precision: Naive Bayes (0.678) - but very conservative 
 * Best Balance: Logistic Regression - highest MCC indicates most reliable predictions
+* Best at detecting Bad Credit: Naive Bayes (highest TP = 61)
+* Best at detecting Good Credit: Random Forest (highest TN = 195)
 * Surprising Result: XGBoost underperforms, Logistic Regression wins  
 <br>
 <br> 
 
-| ML Model Name | Observation about model performance |
+| Model Name | Observation about model performance |
 |--------------|-------------------------------------|
-| Logistic Regression | Logistic Regression achieves the highest accuracy of 78.33% with a strong AUC of 0.676. The model demonstrates excellent balance between precision (0.533) and recall (0.596), showing consistent performance in identifying both good and bad credit risks. With 187 true negatives and 48 true positives, it effectively classifies the majority class while maintaining reasonable minority class detection. The MCC of 0.457 (highest among all models) indicates the most reliable and balanced predictions. The model benefits significantly from OneHotEncoding, which prevents false ordinal relationships in categorical features, making it the most robust linear classifier for this credit risk problem. |
-| Decision Tree | Decision Tree shows the poorest performance with only 67% accuracy and lowest AUC of 0.454 (barely better than random guessing). The model struggles significantly with 57 false positives and 34 false negatives, indicating high misclassification rates. With precision of 0.489 and recall of 0.471, it fails to effectively distinguish between credit risk classes. The very low MCC of 0.232 confirms weak overall prediction quality. Despite max_depth=10, the standalone decision tree appears to be both underfitting the data and making inconsistent splits, highlighting why ensemble methods are preferred. The confusion matrix shows it's particularly poor at identifying bad credit risks (only 44 true positives out of 78 actual bad credits). |
-| K-Nearest Neighbors | KNN achieves 75.33% accuracy with moderate AUC of 0.643. However, it shows extremely low precision (0.400), meaning 60% of its "bad credit" predictions are false alarms (20 false positives vs only 54 true positives). With 190 true negatives, it's conservative and better at identifying good credits. The recall of 0.493 indicates it misses about half of actual bad credit cases (36 false negatives). The MCC of 0.358 suggests moderate but inconsistent performance. The high-dimensional space created by OneHotEncoding (13 categorical features) may be affecting KNN's distance calculations, causing it to struggle with the curse of dimensionality. |
-| Naive Bayes | Naive Bayes achieves 69.67% accuracy with AUC of 0.496 (essentially random performance). However, it shows interesting behavior with the highest precision (0.678) among all models but at the cost of only 61 true positives. The model is highly conservative with just 26 false positives but 148 true negatives, preferring to predict "good credit" in uncertain cases. The recall of 0.573 shows it misses 29 bad credit cases. Despite theoretical limitations with feature independence assumptions, the MCC of 0.356 indicates it's more reliable than Decision Tree. The confusion matrix reveals it's risk-averse, which could be acceptable in conservative lending scenarios. |
-| Random Forest | Random Forest achieves 76% accuracy with good AUC of 0.688, demonstrating strong ensemble benefits. However, it exhibits unusual behavior with very low precision (0.367) - only 57 true positives against 155 false positives, the highest FP rate among all models. This aggressive "bad credit" prediction strategy results in high recall (0.478) but poor precision. With 195 true negatives, it correctly identifies most good credits. The MCC of 0.369 indicates moderate reliability. The ensemble approach helps reduce variance compared to single Decision Tree, but the model appears miscalibrated, being overly pessimistic about credit risk. This could lead to rejecting many viable loan applications in practice. |
-| XGBoost | XGBoost achieves 73% accuracy with moderate AUC of 0.567. The model shows balanced precision (0.422) and recall (0.484), with 52 true positives, 38 false positives, 26 false negatives, and 181 true negatives. Despite being typically the strongest performer, XGBoost underperforms here with MCC of 0.313. The confusion matrix suggests reasonable but not exceptional discrimination. The gradient boosting may be overfitting to training data or the hyperparameters (n_estimators=100, max_depth=6, learning_rate=0.1) may not be optimal for this dataset. Interestingly, simpler models like Logistic Regression outperform it, suggesting the credit risk patterns may be more linear than expected, or the dataset may be too small for XGBoost to show its typical advantages. |
+| Logistic Regression | Logistic Regression achieves the highest accuracy of 78.33% with a strong AUC of 0.676. The MCC of 0.457 (highest among all models) indicates the most reliable and balanced predictions across both classes. The model is the __most robust linear classifier for this credit risk problem__.|
+| Decision Tree | Decision Tree shows the poorest performance with only 67% accuracy and lowest AUC of 0.454. The lowest MCC 0.2317 suggest weaker generalization and class discrimination. |
+| K-Nearest Neighbors | KNN achieves 75.33%, good overall accuracy with moderate AUC of 0.643. But it shows extremely low precision (0.400) for Bad Credit. The MCC of 0.358 suggests moderate but inconsistent performance. The high-dimensional space created by OneHotEncoding (13 categorical features) may be affecting KNN's distance calculations, causing it to struggle with the curse of dimensionality. |
+| Naive Bayes | Naive Bayes achieves the highest precision (0.678) among all models and highest TP count(61), meaning good at identifying Bad Credit. The high FP (62) reduces overall reliability. The confusion matrix reveals it's risk-averse, which might be acceptable in conservative lending scenarios.|
+| Random Forest | Random Forest achieves 76% accuracy with good AUC of 0.688, demonstrating strong ensemble benefits at identifying Good Credit. However, it exhibits very low precision (0.367) for Bad Credit which limits its effectiveness. |
+| XGBoost | XGBoost achieves 73% accuracy with moderate AUC of 0.567. Better than Decision Tree but still underperforming for an ensemble model. Simpler model like Logistic Regression outperforming it might mean that credit risk patterns may be more linea than expected, or the dataset may be too small for it to show its advantages. |
 
 ## 🏗️ Project Structure
 
