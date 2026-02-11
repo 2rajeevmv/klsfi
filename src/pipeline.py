@@ -99,10 +99,12 @@ def build_model(model_name, **kwargs):
         MODEL_NAMES[LOGISTIC_REGRESSION]: LogisticRegression(
             max_iter=kwargs.get('max_iter', 1000),
             random_state=kwargs.get('random_state', 42)
+            #solver='liblinear'
         ),
         MODEL_NAMES[DECISION_TREE]: DecisionTreeClassifier(
             max_depth=kwargs.get('max_depth', 10),
-            random_state=kwargs.get('random_state', 42)
+            random_state=kwargs.get('random_state', 42),
+            min_samples_split=2
         ),
         MODEL_NAMES[KNN]: KNeighborsClassifier(
             n_neighbors=kwargs.get('n_neighbors', 5)
@@ -111,7 +113,8 @@ def build_model(model_name, **kwargs):
         MODEL_NAMES[RANDOM_FOREST]: RandomForestClassifier(
             n_estimators=kwargs.get('n_estimators', 100),
             max_depth=kwargs.get('max_depth', 10),
-            random_state=kwargs.get('random_state', 42)
+            random_state=kwargs.get('random_state', 42),
+            n_jobs=-1
         ),
         MODEL_NAMES[XGBOOST]: XGBClassifier(
             n_estimators=kwargs.get('n_estimators', 100),
@@ -253,3 +256,34 @@ def predict(model, X):
     probabilities = model.predict_proba(X)
 
     return predictions, probabilities
+
+def get_model_parameters(model_name):
+    params = {
+        'Logistic Regression': {
+            'max_iter': 1000,
+            'random_state': 42
+        },
+        'Decision Tree': {
+            'max_depth': 10,
+            'random_state': 42,
+            'min_samples_split': 2
+        },
+        'K-Nearest Neighbors': {
+            'n_neighbors': 5
+        },
+        'Naive Bayes': {},
+        'Random Forest': {
+            'n_estimators': 100,
+            'max_depth': 10,
+            'random_state': 42,
+            'n_jobs': -1
+        },
+        'XGBoost': {
+            'n_estimators': 100,
+            'max_depth': 6,
+            'learning_rate': 0.1,
+            'random_state': 42
+        }
+    }
+    
+    return params.get(model_name, {})

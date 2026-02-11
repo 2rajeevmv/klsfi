@@ -53,6 +53,7 @@ from .pipeline import (
     load_model,
     load_models,
     predict,
+    get_model_parameters,
 )
 
 # -------------------------------
@@ -104,7 +105,8 @@ __all__ = [
     'save_model',
     'load_models',
     'predict',
-
+    'get_model_parameters',
+    
     # metrics
     'compute_metrics',
     'comparison_as_df',

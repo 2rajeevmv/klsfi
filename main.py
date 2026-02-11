@@ -35,6 +35,7 @@ from src.pipeline import (
     train_models,
     save_models,
     load_models,
+    get_model_parameters,
 )
 
 from src.metrics import (
@@ -94,7 +95,7 @@ def main():
     print(y_test[:10])
 
     #TODO:remove commenting - after 
-    #save_test_data(X_test, y_test)
+    save_test_data(X_test, y_test)
     print(f'saved the split test data for streamlit upload')
 
     # load test data
@@ -167,6 +168,14 @@ def main():
     #print(f'\n[12] Print detailed summary')
     #for name, result in results.items():
         #print_model_summary(name, results[name])
+    print(f'\nShow model configuration parametrs')
+    for name in MODEL_NAMES:
+        params = get_model_parameters(name)
+        if params:
+            print(f'model name {name}: {params}')
+        else:
+            print('default')
+        
 
 if __name__ == "__main__":
     main()

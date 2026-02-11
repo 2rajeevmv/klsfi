@@ -24,7 +24,10 @@ if SRC_DIR not in sys.path:
 # Backend imports
 # -------------------------------------------------
 from src.data_utils import get_dataset_info
-from src.pipeline import load_models
+from src.pipeline import (
+    load_models, 
+    get_model_parameters
+)
 from src.metrics import (
     evaluate_model,
     comparison_as_df,
@@ -293,6 +296,26 @@ else:
     st.success(f"Selected model: **{selected_model_name}**")
 
 st.markdown("---")
+# Model Configuration
+st.markdown("### ⚙️ Model Configuration")
+if df is None or selected_model is None:
+    st.info("Upload data and select a model to view metrics")
+else:
+    #st.write("DEBUG: selected model", selected_model)
+    model_params = get_model_parameters(selected_model_name)
+    if model_params:
+        st.markdown("**Hyperparameters used for training:**")
+        
+        # Display parameters in a nice format
+        param_cols = st.columns(min(len(model_params), 4))
+        for idx, (param_name, param_value) in enumerate(model_params.items()):
+            col_idx = idx % len(param_cols)
+            with param_cols[col_idx]:
+                st.metric(param_name.replace('_', ' ').title(), str(param_value))
+    else:
+        st.info("This model uses default parameters (no hyperparameters to configure)")
+
+st.markdown("---")
 
 # -------------------------------------------------
 # Evaluation Metrics – 1 row
@@ -342,7 +365,7 @@ else:
             annot=True,
             fmt="d",
             cmap="Blues",
-            cbar=False,
+            cbar=True,
             annot_kws={"size": 10},
             xticklabels=["Good (0)", "Bad (1)"],
             yticklabels=["Good (0)", "Bad (1)"],
