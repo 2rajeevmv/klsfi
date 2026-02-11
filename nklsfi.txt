@@ -17,6 +17,7 @@ Command: git pull --rebase.
 
 how to deploy on streamlit
 streamlit run app.py
+https://2rajeevmvklsfi.streamlit.app/
 
 project-folder/​
 │-- app.py (or streamlit_app.py)​
