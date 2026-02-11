@@ -4,6 +4,6 @@ scikit-learn
 matplotlib
 seaborn
 xgboost
-streamlit
+streamlit==1.54.0
 joblib
-altair<5
+#altair<5
