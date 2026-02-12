@@ -130,15 +130,15 @@ klsfi/
 ├── app.py                          # Streamlit web application
 ├── main.py                         # Training script (run on BITS Virtual Lab)
 ├── requirements.txt                # Python dependencies
-├── environment.yml                 # conda environment yaml
+├── senvironment.yml                # conda environment yaml (renamed to senvironment.yml - fix for forcing streamlit to not use conda)
 ├── README.md                       # Project documentation
 ├── .gitignore                      # Git ignore rules
 │
 ├── src/                            # Source code modules
 │   ├── __init__.py                 # Package initializer
-│   ├── data_utils.py               # Data loading with meaningful column names
-│   ├── pipeline.py                 # build_preprocessor() & build_model()
-│   └── metrics.py                  # Evaluation metrics
+│   ├── data_utils.py               # Data loading and saving  with meaningful column names along with train-test split
+│   ├── pipeline.py                 # build_preprocessor(), build_model() & train,save,load all models
+│   └── metrics.py                  # Evaluation metrics. Also has function evaluate_model() to evaluate test data.
 │
 ├── model/                          # Saved model files (generated after training)
 │   ├── logistic_regression_model.pkl
@@ -148,7 +148,7 @@ klsfi/
 │   ├── random_forest_model.pkl
 │   ├── xgboost_model.pkl
 │   ├── feature_names.pkl           # Categorical & numerical feature lists
-│   └── model_results.pkl           # Evaluation results
+│   └── model_results.pkl           # Evaluation results - saved by metrics.save_results()
 │
 └── data/                           # Data files
     ├── german.data                 # Original UCI data file

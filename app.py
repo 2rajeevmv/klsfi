@@ -20,6 +20,10 @@ SRC_DIR = os.path.join(BASE_DIR, "src")
 if SRC_DIR not in sys.path:
     sys.path.append(SRC_DIR)
 
+GITHUB_URL = "https://github.com/2rajeevmv/klsfi"
+TEST_DATA_LOCAL_URL="./data/test_data.csv"
+TEST_DATA_GITURL="https://raw.githubusercontent.com/2rajeevmv/klsfi/refs/heads/main/data/test_data.csv"
+
 # -------------------------------------------------
 # Backend imports
 # -------------------------------------------------
@@ -80,6 +84,18 @@ st.markdown("""
         decisions about loan approvals, reducing default risk and improving lending efficiency.
         </div>
         """, unsafe_allow_html=True)
+
+st.markdown(
+    """
+    <br>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <p>
+    <i class="fa fa-github"></i>
+    <b>GitHub:</b><a href="https://github.com/2rajeevmv/klsfi">https://github.com/2rajeevmv/klsfi</a>
+    </p>
+    """,
+    unsafe_allow_html=True,
+)
 
 st.markdown("---")
 
@@ -242,6 +258,21 @@ with col2:
     st.pyplot(fig)
 
 # -------------------------------------------------
+# Test CSV Download
+# -------------------------------------------------
+st.header("📥 Download Test Dataset")
+
+with open(TEST_DATA_LOCAL_URL, "rb") as file:
+    btn = st.download_button(
+            label="Download test_data.csv",
+            data=file,
+            file_name="test_data.csv",
+            mime="text/csv",
+            icon=":material/download:"
+        )
+st.markdown("Also available at:[https://github.com/2rajeevmv/klsfi/data/test_data.csv](%s)" % TEST_DATA_GITURL)
+st.markdown("---")
+# -------------------------------------------------
 # CSV Upload
 # -------------------------------------------------
 st.header("📁 Upload Test Dataset")
@@ -268,7 +299,6 @@ else:
     st.info("Upload test dataset to continue")
 
 st.markdown("---")
-
 # -------------------------------------------------
 # Model Selection
 # -------------------------------------------------
@@ -286,7 +316,7 @@ selected_model_name = None
 if not models:
     st.error("❌ Trained models not found")
 elif df is None:
-    st.info("Upload data first to select a model")
+    st.info("Upload test dataset first, to select the learning model")
 else:
     selected_model_name = st.selectbox(
         "Select model",
@@ -296,10 +326,13 @@ else:
     st.success(f"Selected model: **{selected_model_name}**")
 
 st.markdown("---")
+
+st.header("🧊  %s Model" %selected_model_name)
 # Model Configuration
 st.markdown("### ⚙️ Model Configuration")
+#st.header("⚙️ Model Configuration")
 if df is None or selected_model is None:
-    st.info("Upload data and select a model to view metrics")
+    st.info("Model configuration will appear after the model is selected.")
 else:
     #st.write("DEBUG: selected model", selected_model)
     model_params = get_model_parameters(selected_model_name)
@@ -325,7 +358,7 @@ st.header("📊 Evaluation Metrics")
 results_single = None
 
 if df is None or selected_model is None:
-    st.info("Upload data and select a model to view metrics")
+    st.info("Evaluation metrics will appear after evaluation of the model selected.")
 elif "Target" not in df.columns:
     st.warning("Target column missing — metrics unavailable")
 else:
@@ -355,7 +388,7 @@ st.markdown("---")
 st.header("📌 Confusion Matrix")
 
 if results_single is None:
-    st.info("Confusion matrix will appear after evaluation")
+    st.info("Confusion matrix will appear after evaluation of the model selected.")
 else:
     _, col_cm, _ = st.columns([1, 2, 1])
     with col_cm:

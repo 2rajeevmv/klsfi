@@ -148,6 +148,13 @@ def main():
     print(f'\n[10] Saving evaluation results...')
     save_results(results)
 
+    print(f'\n[10.5] Loading evaluation results...')
+    loaded_results = load_results()
+    print("\n[11] Loaded results Summary")
+    loaded_results_df = comparison_as_df(loaded_results)
+    print(loaded_results_df)
+
+    
     print("\n[11] Results Summary")
     results_df = comparison_as_df(results)
     print(results_df)
