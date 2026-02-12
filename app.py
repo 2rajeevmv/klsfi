@@ -180,14 +180,15 @@ else:
 st.markdown(
     """
     **Confusion Matrix Interpretation (Credit Risk)**  
-    For credit risk classification, the **positive class (1) is Bad Credit**.
+    For credit risk classification, the **positive class (1) is Bad Credit**.  
     - **Negative class (0):** Good Credit  
     - **Positive class (1):** Bad Credit  
     **Confusion Matrix Terms:**
     - **TN (True Negative):** Good Credit correctly predicted as Good Credit  
     - **FP (False Positive):** Good Credit incorrectly predicted as Bad Credit  
     - **FN (False Negative):** Bad Credit incorrectly predicted as Good Credit  
-    - **TP (True Positive):** Bad Credit correctly predicted as Bad Credit
+    - **TP (True Positive):** Bad Credit correctly predicted as Bad Credit    
+    From a practical credit risk classification perspective, **minimizing false negatives (predicting Bad Credit as Good Credit)** is especially important, since that represents approving risky applicants.
     """
 )
 

@@ -29,7 +29,7 @@ This binary classification problem has significant real-world applications in ba
     * We care about identifying risky customers
     * Recall = "of all bad credits, how many did we catch?"
     * Precision = "of those we flagged as bad, how many were actually bad?"  
-
+    * Minimizing false negatives (predicting Bad Credit as Good Credit) is important, since that represents approving risky applicants.
 
 
 ### Features (Meaningful Names):
@@ -89,7 +89,7 @@ Confusion matrix is raveled as: TN, FP, FN, TP
 **Confusion Matrix Terms:**
 * **TN** (True Negative): Good Credit correctly predicted as Good Credit  
 * **FP** (False Positive): Good Credit incorrectly predicted as Bad Credit  
-* **FN** (False Negative): Bad Credit incorrectly predicted as Good Credit  
+* **FN** (False Negative): Bad Credit incorrectly predicted as Good Credit  - this represents **approving risky applicants**
 * **TP** (True Positive): Bad Credit correctly predicted as Bad Credit  
 
 | Metric | Formula | Interpretation | Range |
@@ -109,18 +109,17 @@ Confusion matrix is raveled as: TN, FP, FN, TP
 * Best Balance: Logistic Regression - highest MCC indicates most reliable predictions
 * Best at detecting Bad Credit: Naive Bayes (highest TP = 61)
 * Best at detecting Good Credit: Random Forest (highest TN = 195)
-* Surprising Result: XGBoost underperforms, Logistic Regression wins  
 <br>
 <br> 
 
 | Model Name | Observation about model performance |
 |--------------|-------------------------------------|
-| Logistic Regression | Logistic Regression achieves the highest accuracy of 78.33% with a strong AUC of 0.676. The MCC of 0.457 (highest among all models) indicates the most reliable and balanced predictions across both classes. The model is the __most robust linear classifier for this credit risk problem__.|
+| Logistic Regression | Logistic Regression achieves the highest accuracy of 78.33% with a strong AUC of 0.676. The MCC of 0.457 (highest among all models)suggests that Logistic Regression maintains stable balance between detecting Good and Bad Credit cases. Based on the evaluation, Logistic Regression model is the __most robust linear classifier for this credit risk problem__.|
 | Decision Tree | Decision Tree shows the poorest performance with only 67% accuracy and lowest AUC of 0.454. The lowest MCC 0.2317 suggest weaker generalization and class discrimination. |
 | K-Nearest Neighbors | KNN achieves 75.33%, good overall accuracy with moderate AUC of 0.643. But it shows extremely low precision (0.400) for Bad Credit. The MCC of 0.358 suggests moderate but inconsistent performance. The high-dimensional space created by OneHotEncoding (13 categorical features) may be affecting KNN's distance calculations, causing it to struggle with the curse of dimensionality. |
 | Naive Bayes | Naive Bayes achieves the highest precision (0.678) among all models and highest TP count(61), meaning good at identifying Bad Credit. The high FP (62) reduces overall reliability. The confusion matrix reveals it's risk-averse, which might be acceptable in conservative lending scenarios.|
 | Random Forest | Random Forest achieves 76% accuracy with good AUC of 0.688, demonstrating strong ensemble benefits at identifying Good Credit. However, it exhibits very low precision (0.367) for Bad Credit which limits its effectiveness. |
-| XGBoost | XGBoost achieves 73% accuracy with moderate AUC of 0.567. Better than Decision Tree but still underperforming for an ensemble model. Simpler model like Logistic Regression outperforming it might mean that credit risk patterns may be more linea than expected, or the dataset may be too small for it to show its advantages. |
+| XGBoost | XGBoost achieves 73% accuracy with moderate AUC of 0.567. It was somewhat surprising that XGBoost, despite being a more complex ensemble method,did not outperform Logistic Regression. This suggests that for this dataset, simpler linear decision boundaries may capture the underlying patterns effectively or the dataset may be too small for XGBoost to show its advantages. |
 
 ## 🏗️ Project Structure
 
