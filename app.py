@@ -131,7 +131,8 @@ with col2:
     st.markdown(f"""
     **Target Variable:** {dataset_info['target']}  
     **Classes:** Good Credit (0), Bad Credit (1)  
-    **Distribution:** Imbalanced (70% Good, 30% Bad)
+    **Distribution:** Imbalanced (70% Good, 30% Bad)  
+    **Train-Test Split:** **70-30** ratio with Stratified
     """)
 
 st.markdown("---")
